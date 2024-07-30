@@ -87,7 +87,7 @@ namespace MyBoards.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2(3)", precision: 3, nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2(3)", precision: 3, nullable: true),
-                    Effort = table.Column<decimal>(type: "decimal(5,2", nullable: true),
+                    Effort = table.Column<decimal>(type: "decimal(5,2)", nullable: true),
                     Activity = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     RemainingWork = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: true)
                 },
@@ -168,11 +168,6 @@ namespace MyBoards.Migrations
                 column: "WorkItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkItemTag_WorkItemId",
-                table: "WorkItemTag",
-                column: "WorkItemId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_WorkItems_AuthorId",
                 table: "WorkItems",
                 column: "AuthorId");
@@ -181,6 +176,11 @@ namespace MyBoards.Migrations
                 name: "IX_WorkItems_StateId",
                 table: "WorkItems",
                 column: "StateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItemTag_WorkItemId",
+                table: "WorkItemTag",
+                column: "WorkItemId");
         }
 
         /// <inheritdoc />

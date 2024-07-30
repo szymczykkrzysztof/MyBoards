@@ -14,22 +14,35 @@ public class MyBoardsContext : DbContext
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<WorkItemState> WorkItemStates { get; set; }
+    public DbSet<Epic> Epics { get; set; }
+    public DbSet<Task> Tasks { get; set; }
+    public DbSet<Issue> Issues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<WorkItemState>()
             .Property(s => s.Value)
             .IsRequired()
-            .HasMaxLength(50);
-            
+            .HasMaxLength(60);
+        modelBuilder.Entity<Issue>(eb =>
+        {
+            eb.Property(wi => wi.Effort).HasColumnType("decimal(5,2)");
+        });
+        modelBuilder.Entity<Task>(eb =>
+        {
+            eb.Property(wi => wi.Activity).HasMaxLength(200);
+            eb.Property(wi => wi.RemainingWork).HasPrecision(14, 2);
+        });
+        modelBuilder.Entity<Epic>(eb =>
+        {
+            eb.Property(wi => wi.StartDate).HasPrecision(3);
+            eb.Property(wi => wi.EndDate).HasPrecision(3);
+        });
+
         modelBuilder.Entity<WorkItem>(eb =>
         {
             eb.Property(wi => wi.Area).HasColumnType("varchar(200)");
             eb.Property(wi => wi.IterationPath).HasColumnName("Iteration_Path");
-            eb.Property(wi => wi.Effort).HasColumnType("decimal(5,2");
-            eb.Property(wi => wi.EndDate).HasPrecision(3);
-            eb.Property(wi => wi.Activity).HasMaxLength(200);
-            eb.Property(wi => wi.RemainingWork).HasPrecision(14, 2);
             eb.Property(wi => wi.Priority).HasDefaultValue(1);
             eb.HasOne(w => w.State)
                 .WithMany()
@@ -65,6 +78,6 @@ public class MyBoardsContext : DbContext
             .HasOne(u => u.Address)
             .WithOne(a => a.User)
             .HasForeignKey<Address>(a => a.UserId);
-        
+
     }
 }

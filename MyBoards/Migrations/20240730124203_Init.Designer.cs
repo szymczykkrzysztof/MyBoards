@@ -12,7 +12,7 @@ using MyBoards.Entities;
 namespace MyBoards.Migrations
 {
     [DbContext(typeof(MyBoardsContext))]
-    [Migration("20240730121336_Init")]
+    [Migration("20240730124203_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -225,7 +225,7 @@ namespace MyBoards.Migrations
                     b.HasBaseType("MyBoards.Entities.WorkItem");
 
                     b.Property<decimal>("Effort")
-                        .HasColumnType("decimal(5,2");
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasDiscriminator().HasValue("Issue");
                 });
